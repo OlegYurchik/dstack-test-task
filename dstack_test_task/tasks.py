@@ -22,6 +22,7 @@ def read_logs(queue: Queue, end_event: threading.Event, image: str, command: str
     container = docker.from_env().containers.run(image=image, command=command, detach=True)
     with _read_logs_exit(container=container, end_event=end_event):
         for log in container.logs(stream=True, timestamps=True):
+            logger.info("Handle log: %s", log)
             timestamp_raw, message_raw = log.split(b" ", maxsplit=1)
             timestamp = datetime.datetime.fromisoformat(timestamp_raw.decode("utf-8"))
             timestamp = int(timestamp.timestamp() * 1000)

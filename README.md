@@ -1,6 +1,11 @@
 # Test Task dstack.ai
 
-[Description](./Backend Engineer Test Task.pdf)
+[Description](./description.pdf)
+
+## Requirements
+
+1. [Python 3.11+](https://www.python.org/)
+2. [Docker](https://docs.docker.com/engine/install/)
 
 ## Installation
 
@@ -16,7 +21,7 @@ poetry install
 ```shell
 python -m dstack_test_task \
     --docker-image python \
-    --bash-command $'pip install pip -U && pip install tqdm && python -c \"import time\ncounter = 0\nwhile True:\n\tprint(counter)\n\tcounter = counter + 1\n\ttime.sleep(0.1)\"' \
+    --bash-command $'python -c \"import time\ncounter = 0\nwhile True:\n\tprint(counter)\n\tcounter = counter + 1\n\ttime.sleep(0.1)\"' \
     --aws-cloudwatch-group test-task-group-1 \
     --aws-cloudwatch-stream test-task-stream-1 \
     --aws-access-key-id ... \
