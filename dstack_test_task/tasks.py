@@ -13,16 +13,17 @@ MAX_LOG_EVENTS_COUNT = 10_000
 
 @contextlib.contextmanager
 def _read_logs_exit(container, end_event: threading.Event):
-    yield
-    container.remove(force=True)
-    end_event.set()
+    try:
+        yield
+    finally:
+        container.remove(force=True)
+        end_event.set()
 
 
 def read_logs(queue: Queue, end_event: threading.Event, image: str, command: str | list[str]):
     container = docker.from_env().containers.run(image=image, command=command, detach=True)
     with _read_logs_exit(container=container, end_event=end_event):
         for log in container.logs(stream=True, timestamps=True):
-            logger.info("Handle log: %s", log)
             timestamp_raw, message_raw = log.split(b" ", maxsplit=1)
             timestamp = datetime.datetime.fromisoformat(timestamp_raw.decode("utf-8"))
             timestamp = int(timestamp.timestamp() * 1000)
