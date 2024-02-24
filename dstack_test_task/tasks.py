@@ -21,7 +21,13 @@ def _read_logs_exit(container, end_event: threading.Event):
 
 
 def read_logs(queue: Queue, end_event: threading.Event, image: str, command: str | list[str]):
-    container = docker.from_env().containers.run(image=image, command=command, detach=True)
+    container = docker.from_env().containers.run(
+        image=image,
+        command=command,
+        detach=True,
+        auto_remove=True,
+        environment={"PYTHONUNBUFFERED": "1"},
+    )
     with _read_logs_exit(container=container, end_event=end_event):
         for log in container.logs(stream=True, timestamps=True):
             timestamp_raw, message_raw = log.split(b" ", maxsplit=1)
