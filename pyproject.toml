@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "dstack-test-task"
+version = "1.0.0"
+description = "Test task for backend engineer test in dstack.ai"
+authors = ["Oleg Yurchik"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = "^0.9.0"
+docker = "^7.0.0"
+boto3 = "^1.34.48"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
