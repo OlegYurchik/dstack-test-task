@@ -33,3 +33,4 @@ python -m dstack_test_task \
 
 1. Fix bug when event log batch more then `1,048,576` bytes. Check corner cases from
 [`put_log_events` documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/logs/client/put_log_events.html#CloudWatchLogs.Client.put_log_events)
+2. Fix problem: doesn't remove container when app close by `CTRL+C`
